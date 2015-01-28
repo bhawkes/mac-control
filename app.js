@@ -1,14 +1,8 @@
 var mc = require("mac-control");
 
 // press a on the Mac running node
-mc.keyPress("a");
+mouse.keyHold("shift");
 
-// press q
-mc.keyPress(12);
+setTimeout(function(){mouse.keyPress("c");}, 500);
 
-// holds shift, then presses b+c, effectively typing BC, then releases shift
-mc.keyHold("shift");
-
-    mc.keyPress(["b","c"]);
-
-mc.keyRelease("shift");
+setTimeout(function(){mouse.keyRelease("shift");}, 1000);
