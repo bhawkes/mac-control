@@ -1,8 +1,8 @@
 var mc = require("mac-control");
 
 // press a on the Mac running node
-mouse.keyHold("shift");
+mc.keyHold("shift");
 
-setTimeout(function(){mouse.keyPress("c");}, 500);
+setTimeout(function(){mc.keyPress("c");}, 500);
 
-setTimeout(function(){mouse.keyRelease("shift");}, 1000);
+setTimeout(function(){mc.keyRelease("shift");}, 1000);

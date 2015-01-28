@@ -4,7 +4,8 @@
   "description": "Simple module to control Mac OS from Node",
   "main": "index.js",
   "scripts": {
-    "install": "node-gyp rebuild"
+    "install": "node-gyp rebuild",
+    "test": "node app.js"
   },
   "keywords": [
     "mac",
