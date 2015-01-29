@@ -1,7 +1,6 @@
 var addon = require('./build/Release/addon');
 var mc = {};
 module.exports = mc;
-
 // private variables
 
 var events = {}
@@ -173,6 +172,58 @@ mc.keyRelease = function(arg){
         
     }
 }
+
+
+mc.combineKeys=function(arrayofkeys)
+{
+    var timeout=500;
+    arrayofkeys.push("end");
+    arrayofkeys.forEach(function(key){
+        if(key!="end")
+        {
+            setTimeout(function(){
+             mc.keyHold(key)   
+            },500);
+        }
+        else
+        {
+          arrayofkeys.forEach(function(key){
+            setTimeout(function(){
+                mc.keyRelease(key);
+            },500);
+          });
+        }
+    });
+}
+
+mc.CapsText=function(string)
+{
+    var timeout=200;
+    var chars=string.split("");
+    /*----method-1-----*/
+    chars.push("end");
+    mc.keyHold("shift")
+    chars.forEach(function(key){
+        setTimeout(function(){
+            if(key!="end")
+            {
+            mc.keyHold(key);
+            }
+            else
+            {
+                mc.keyRelease("shift");
+            }
+        },timeout);
+    });
+
+}
+
+mc.Navigate=function(direction)
+{
+    mc.keyPress(stringToKeyCode(direction));
+}
+
+
 
 // private functions
 
@@ -393,3 +444,4 @@ function sendKeyRelease(keycode,mods){
     addon.release(keycode,modify[0],modify[1],modify[2],modify[3],modify[4]);
     
 } 
+
