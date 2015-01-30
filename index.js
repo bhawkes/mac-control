@@ -297,7 +297,7 @@ function stringToKeyCode(arg){
         case "2":   return 19;    
         case "3":   return 20;    
         case "4":   return 21;    
-        case "5":   return 22;    
+        case "5":   return 23;    
         case "6":   return 22;    
         case "7":   return 26;   
         case "8":   return 28;   
@@ -306,15 +306,16 @@ function stringToKeyCode(arg){
 
         case ".":   return 47;
         case ",":   return 43;
-        case "[":   return 30;
-        case "]":   return 21;
+        case "[":   return 33;
+        case "]":   return 30;
         case ",":   return 43;
         case "-":   return 27;
-        case "'":   return 27;
-        case ";":   return 29;
-        case "\\":   return 42;
+        case "=":   return 24;
+        case "'":   return 39;
+        case ";":   return 41;
+        case "\\":  return 42;
         case "/":   return 44;
-        case "`":   return 32;
+        case "`":   return 50;
 
             
         case "tab": return 48;    
