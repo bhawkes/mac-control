@@ -1,7 +1,6 @@
 var addon = require('./build/Release/addon');
 var mc = {};
 module.exports = mc;
-
 // private variables
 
 var events = {}
@@ -174,6 +173,58 @@ mc.keyRelease = function(arg){
     }
 }
 
+
+mc.combineKeys=function(arrayofkeys)
+{
+    var timeout=500;
+    arrayofkeys.push("end");
+    arrayofkeys.forEach(function(key){
+        if(key!="end")
+        {
+            setTimeout(function(){
+             mc.keyHold(key)   
+            },500);
+        }
+        else
+        {
+          arrayofkeys.forEach(function(key){
+            setTimeout(function(){
+                mc.keyRelease(key);
+            },500);
+          });
+        }
+    });
+}
+
+mc.CapsText=function(string)
+{
+    var timeout=200;
+    var chars=string.split("");
+    /*----method-1-----*/
+    chars.push("end");
+    mc.keyHold("shift")
+    chars.forEach(function(key){
+        setTimeout(function(){
+            if(key!="end")
+            {
+            mc.keyHold(key);
+            }
+            else
+            {
+                mc.keyRelease("shift");
+            }
+        },timeout);
+    });
+
+}
+
+mc.Navigate=function(direction)
+{
+    mc.keyPress(stringToKeyCode(direction));
+}
+
+
+
 // private functions
 
 function whichType(arg){
@@ -215,74 +266,90 @@ function numToKeyCode(arg){
 function stringToKeyCode(arg){
     
     switch (arg){
-        case "a": case "A":   return 0;   break;
-        case "b": case "B":   return 11;  break;
-        case "c": case "C":   return 8;   break; 
-        case "d": case "D":   return 2;   break; 
-        case "e": case "E":   return 14;  break; 
-        case "f": case "F":   return 3;   break; 
-        case "g": case "G":   return 5;   break; 
-        case "h": case "H":   return 6;   break; 
-        case "i": case "I":   return 34;  break; 
-        case "j": case "J":   return 38;  break; 
-        case "k": case "K":   return 40;  break;
-        case "l": case "L":   return 37;  break;
-        case "m": case "M":   return 46;  break; 
-        case "n": case "N":   return 45;  break; 
-        case "o": case "O":   return 31;  break; 
-        case "p": case "P":   return 35;  break; 
-        case "q": case "Q":   return 12;  break; 
-        case "r": case "R":   return 15;  break; 
-        case "s": case "S":   return 1;   break; 
-        case "t": case "T":   return 17;  break; 
-        case "u": case "U":   return 32;  break;
-        case "v": case "V":   return 9;   break;
-        case "w": case "W":   return 13;  break;
-        case "x": case "X":   return 7;   break; 
-        case "y": case "Y":   return 16;  break; 
-        case "z": case "ZB":   return 6;   break;     
+        case "a": case "A":   return 0;   
+        case "b": case "B":   return 11;  
+        case "c": case "C":   return 8;    
+        case "d": case "D":   return 2;    
+        case "e": case "E":   return 14;   
+        case "f": case "F":   return 3;    
+        case "g": case "G":   return 5;    
+        case "h": case "H":   return 4;    
+        case "i": case "I":   return 34;   
+        case "j": case "J":   return 38;   
+        case "k": case "K":   return 40;  
+        case "l": case "L":   return 37;  
+        case "m": case "M":   return 46;   
+        case "n": case "N":   return 45;   
+        case "o": case "O":   return 31;   
+        case "p": case "P":   return 35;   
+        case "q": case "Q":   return 12;   
+        case "r": case "R":   return 15;   
+        case "s": case "S":   return 1;    
+        case "t": case "T":   return 17;   
+        case "u": case "U":   return 32;  
+        case "v": case "V":   return 9;   
+        case "w": case "W":   return 13;  
+        case "x": case "X":   return 7;    
+        case "y": case "Y":   return 16;   
+        case "z": case "Z":   return 6;        
             
-        case "1":   return 18;   break; 
-        case "2":   return 19;   break; 
-        case "3":   return 20;   break; 
-        case "4":   return 21;   break; 
-        case "5":   return 22;   break; 
-        case "6":   return 22;   break; 
-        case "7":   return 26;   break;
-        case "8":   return 28;   break;
-        case "9":   return 25;   break; 
-        case "0":   return 29;   break; 
+        case "1":   return 18;    
+        case "2":   return 19;    
+        case "3":   return 20;    
+        case "4":   return 21;    
+        case "5":   return 23;    
+        case "6":   return 22;    
+        case "7":   return 26;   
+        case "8":   return 28;   
+        case "9":   return 25;    
+        case "0":   return 29;
+
+        case ".":   return 47;
+        case ",":   return 43;
+        case "[":   return 33;
+        case "]":   return 30;
+        case ",":   return 43;
+        case "-":   return 27;
+        case "=":   return 24;
+        case "'":   return 39;
+        case ";":   return 41;
+        case "\\":  return 42;
+        case "/":   return 44;
+        case "`":   return 50;
+
             
-        case "tab": return 48;   break; 
+        case "tab": return 48;    
             
-        case "command": case "cmd":     return 55;  break; 
+        case "command": case "cmd":     return 55;   
             
-        case "control": case "ctrl":    return 59;  break; 
+        case "control": case "ctrl":    return 59;   
             
-        case "option":  case "opt": case "alt": return 58;  break; 
+        case "option":  case "opt": case "alt": return 58;   
         
-        case "enter":   case "return":  return 36;  break;
+        case "enter":   case "return":  return 36;  
             
-        case "delete":  case "del":  return 51; break;
+        case "delete":  case "del":  return 51; 
             
-        case "function": case "fn": return 63;  break; 
+        case "function": case "fn": return 63;   
             
-        case "backspace": case "bksp": return 51; break; 
+        case "backspace": case "bksp": return 51;  
             
-        case "space": case "sp": case " ": return 49;   break; 
+        case "space": case "sp": case " ": return 49;    
             
-        case "escape": case "esc":  return 53;   break; 
+        case "escape": case "esc":  return 53;    
             
-        case "capslock": case "caps":   return 57;   break; 
+        case "capslock": case "caps":   return 57;    
             
-        case "up":          return 126;   break;
-        case "down":        return 125;   break; 
-        case "left":        return 123;   break; 
-        case "right":       return 124;   break; 
+        case "up":          return 126;   
+        case "down":        return 125;    
+        case "left":        return 123;    
+        case "right":       return 124;    
             
-        case "shift":       return 60;   break;// 56 or 60
+        case "shift":       return 60;   // 56 or 60
+
+        case ".": return '.';
    
-        default:    return 0;   break;
+        default:    return 0;   
     }        
     
 }
@@ -393,3 +460,4 @@ function sendKeyRelease(keycode,mods){
     addon.release(keycode,modify[0],modify[1],modify[2],modify[3],modify[4]);
     
 } 
+

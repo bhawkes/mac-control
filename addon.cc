@@ -1,5 +1,6 @@
-#include <ApplicationServices/ApplicationServices.h>
 #include <node.h>
+#include <nan.h>
+#include <ApplicationServices/ApplicationServices.h>
 #include <v8.h>
 
 using namespace v8;
@@ -9,7 +10,7 @@ using namespace v8;
 //kCGEventFlagMaskCommand
 //kCGEventFlagMaskSecondaryFn
 
-Handle<Value> Press(const Arguments& args) {
+NAN_METHOD (Press) {
         
     CGEventRef down = CGEventCreateKeyboardEvent(NULL, (CGKeyCode) args[0]->NumberValue(), true);
 
@@ -20,10 +21,10 @@ Handle<Value> Press(const Arguments& args) {
     CGEventPost(kCGHIDEventTap, down);
     CFRelease(down);
 
-    return v8::Undefined();
+    // return v8::Undefined();
 }
  
-Handle<Value> Release(const Arguments& args) {
+NAN_METHOD (Release) {
     
     CGEventRef up = CGEventCreateKeyboardEvent(NULL, (CGKeyCode) args[0]->NumberValue(), false);
     
@@ -34,14 +35,14 @@ Handle<Value> Release(const Arguments& args) {
     CGEventPost(kCGHIDEventTap, up);
     CFRelease(up);
 
-    return v8::Undefined();
+    // return v8::Undefined();
 }
  
 void init(Handle<Object> target) {
-    target->Set(String::NewSymbol("press"),
-        FunctionTemplate::New(Press)->GetFunction());
+    target->Set(NanNew<String>("press"),
+        NanNew<FunctionTemplate>(Press)->GetFunction());
  
-    target->Set(String::NewSymbol("release"),
-        FunctionTemplate::New(Release)->GetFunction());
+    target->Set(NanNew<String>("release"),
+        NanNew<FunctionTemplate>(Release)->GetFunction());
 }
 NODE_MODULE(addon, init)
